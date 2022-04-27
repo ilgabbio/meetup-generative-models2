@@ -11,6 +11,7 @@ numpy = "*"
 pillow = "*"
 sklearn = "*"
 pandas = "*"
+segmentation-models-pytorch = "*"
 
 [dev-packages]
 

@@ -10,11 +10,11 @@ def num_params(model: Module):
 
 
 class DownBlock(Sequential):
-    def __init__(self, ch_in, ch_out, kern, pad=0, sep=False):
+    def __init__(self, ch_in, ch_out, kern, pad=0, act=LeakyReLU, sep=False):
         super().__init__(
             self._conv_sep(ch_in, ch_out, kern, pad) if sep
             else self._conv(ch_in, ch_out, kern, pad),
-            LeakyReLU(),
+            act(),
         )
         
     def _conv(self, ch_in, ch_out, kern, pad) -> Module:
@@ -28,11 +28,11 @@ class DownBlock(Sequential):
 
 
 class UpBlock(Sequential):
-    def __init__(self, ch_in, ch_out, kern, pad = 0, opad = 0, sep=False):
+    def __init__(self, ch_in, ch_out, kern, pad = 0, opad = 0, act=LeakyReLU, sep=False):
         super().__init__(
             self._conv_sep(ch_in, ch_out, kern, pad, opad) if sep
             else self._conv(ch_in, ch_out, kern, pad, opad),
-            LeakyReLU(),
+            act(),
         )
 
     def _conv(self, ch_in, ch_out, kern, pad, opad):

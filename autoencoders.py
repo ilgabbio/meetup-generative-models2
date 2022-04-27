@@ -1,5 +1,10 @@
-from torch.nn import Sequential
+from typing import Tuple
+
+import torch
+from torch.nn import Module, Sequential, Linear, Conv2d, MSELoss, Sigmoid, LeakyReLU
+
 from modules import DownBlock, UpBlock
+
 
 class Encoder(Sequential):
     """Receives images 1x28x28 as (N,C,H,W)."""
@@ -10,6 +15,7 @@ class Encoder(Sequential):
             DownBlock(16,32,7),  # 1x1
         )
 
+
 class Decoder(Sequential):
     """Receives embeddings as (N,C,H,W)."""
     def __init__(self):
@@ -18,6 +24,7 @@ class Decoder(Sequential):
             UpBlock(16,8,3,1,1), # 14x14
             UpBlock(8,1,3,1,1),  # 28x28
         )
+
 
 class Autoencoder(Sequential):
     def __init__(self):
