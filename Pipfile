@@ -12,6 +12,8 @@ pillow = "*"
 sklearn = "*"
 pandas = "*"
 segmentation-models-pytorch = "*"
+normflow = {git = "https://github.com/VincentStimper/normalizing-flows.git"}
+tqdm = "*"
 
 [dev-packages]
 

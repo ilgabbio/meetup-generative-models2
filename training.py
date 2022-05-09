@@ -1,6 +1,6 @@
 import os
 import pickle
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Optional
 from collections import defaultdict
 
 import numpy as np
@@ -117,24 +117,28 @@ def generate_images(encoder, decoder, n = 16):
         return images[:,0,:,:]
 
 
-def save_model(path, model: Module, metrics: MetricsCollector):
+def save_model(path, model: Module, metrics: Optional[MetricsCollector] = None):
     # Saving the model:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     torch.save(model.state_dict(), path + '.model.pickle')
 
     # Saving the metrics:
-    with open(path + '.metrics.pickle', 'wb') as f:
-        pickle.dump(metrics, f)
+    if metrics is not None:
+        with open(path + '.metrics.pickle', 'wb') as f:
+            pickle.dump(metrics, f)
 
 
-def load_model(path, model) -> Tuple[Module, MetricsCollector]:
+def load_model(path, model) -> Tuple[Module, Optional[MetricsCollector]]:
     # Loading the model:
     model.load_state_dict(torch.load(path + '.model.pickle'))
     model.eval()
 
     # Loading the metrics:
-    with open(path + '.metrics.pickle', 'rb') as f:
-        metrics = pickle.load(f)
+    try:
+        with open(path + '.metrics.pickle', 'rb') as f:
+            metrics = pickle.load(f)
+    except:
+        metrics = None
 
     # Return all:
     return model, metrics
