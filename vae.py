@@ -59,7 +59,7 @@ class ReparameterizationTrick(Module):
 
         logvar = self._logvar(theta)
         epsilon = torch.randn(*mu.shape, requires_grad = False)
-        sigma = torch.exp(0.5 * logvar)
+        sigma = torch.exp(logvar)
         z = epsilon * sigma + mu
 
         return z, mu, logvar
